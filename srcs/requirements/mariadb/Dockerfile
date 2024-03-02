@@ -3,30 +3,31 @@ FROM debian:bullseye
 RUN apt update
 RUN apt upgrade
 RUN apt-get install mariadb-server -y
+RUN apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+
+ENV SQL_DATABASE=test-db
+ENV SQL_USER=mysql
+ENV SQL_PASSWORD=helloPASSY1123
+ENV SQL_ROOT_PASSWORD=rootyROOT123
 
 COPY conf/50-server.cnf	/etc/mysql/mariadb.conf.d/50-server.cnf
-
 COPY tools/script.sh /etc/script.sh
 
 # RUN mkdir -p /run/mysqld
-# RUN chown -R mysql:mysql /run/mysqld
-# RUN chmod 777 /var/run/mysqld
 
-RUN mkdir -p /run/mysqld
-RUN touch /run/mysqld/mysqld.sock
-RUN touch /run/mysqld/mysqld.pid
-RUN chown -R mysql:mysql /run/mysqld/mysqld.sock
-RUN chown -R mysql:mysql /run/mysqld/mysqld.pid
-RUN chmod -R 644 /run/mysqld/mysqld.sock
+
+# RUN mkdir -p /run/mysqld
+# RUN touch /run/mysqld/mysqld.sock
+# RUN touch /run/mysqld/mysqld.pid
+RUN chmod +x /etc/script.sh
 
 RUN ["/bin/sh", "/etc/script.sh"]
 
-# CMD ["mariadb"]
+RUN chown -R mysql:mysql /run/mysqld
+RUN chmod 777 /var/run/mysqld
 
+RUN chown -R mysql:mysql /run/mysqld/mysqld.sock
+# RUN chown -R mysql:mysql /run/mysqld/mysqld.pid
+RUN chmod -R 644 /run/mysqld/mysqld.sock
 
-#  error: 'Can't connect to local MySQL server through socket '/run/mysqld/mysqld.sock'
-
-#  => => # Check that mysqld is running and that the socket: '/run/mysqld/mysqld.sock' exists! 
-#  => => # 240229 17:53:15 mysqld_safe Logging to syslog.                                      
-#  => => # 240229 17:53:15 mysqld_safe Starting mariadbd daemon with databases from /var/lib/my
-#  => => # sql
+CMD ["mysqld", "--bind-address=0.0.0.0"]
