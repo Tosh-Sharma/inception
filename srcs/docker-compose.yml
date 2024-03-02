@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  # nginx:
+  #   container_name: nginx
+  #   #depends_on:
+  #   # - wordpress
+  #   env_file: .env
+  #   build:
+  #     context: requirements/nginx
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "443:443"
+  #   volumes:
+  #     - ./conf/:/etc/nginx/http.d
+  #     - ./tools:/etc/nginx/ssl
+  #     - /home/tsharma/Documents/42cursus/inception/srcs/requirements/nginx:/var/www
+  #   restart: always
+  mariadb:
+    container_name: mariadb
+    env_file: ./.env
+    build:
+      context: requirements/mariadb
+      dockerfile: Dockerfile
+    ports:
+    - "3306:3306"
+    volumes:
+      - mariadb:/var/lib/mysql
+    restart: always
+
+#TODO: make the mariadb and wordpress folder locally before execution
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/tsharma/mariadb
+      o: bind
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/tsharma/wordpress
+      o: bind

@@ -5,10 +5,10 @@ RUN apt upgrade
 RUN apt-get install mariadb-server -y
 RUN apt-get install -y procps && rm -rf /var/lib/apt/lists/*
 
-ENV SQL_DATABASE=test-db
-ENV SQL_USER=mysql
-ENV SQL_PASSWORD=helloPASSY1123
-ENV SQL_ROOT_PASSWORD=rootyROOT123
+# ENV DB_NAME=test-db
+# ENV DB_USER=mysql
+# ENV DB_PASSWORD=helloPASSY1123
+# ENV DB_ROOT_PASSWORD=rootyROOT123
 
 COPY conf/50-server.cnf	/etc/mysql/mariadb.conf.d/50-server.cnf
 COPY tools/script.sh /etc/script.sh
@@ -30,4 +30,5 @@ RUN chown -R mysql:mysql /run/mysqld/mysqld.sock
 # RUN chown -R mysql:mysql /run/mysqld/mysqld.pid
 RUN chmod -R 644 /run/mysqld/mysqld.sock
 
+EXPOSE 3306
 CMD ["mysqld", "--bind-address=0.0.0.0"]
