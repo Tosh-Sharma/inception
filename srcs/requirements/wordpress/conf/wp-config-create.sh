@@ -2,6 +2,8 @@
 
 sleep 10;
 
+echo "DB_NAME is ${DB_NAME}\n DB_USER=${DB_USER}\n DB_PASSWORD=${DB_PASSWORD}" >> /test.txt
+
 if [ ! -f "/var/www/wp-config.php" ]; then
 cat << EOF > /var/www/wp-config.php
 <?php
