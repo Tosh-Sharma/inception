@@ -1,10 +1,12 @@
 FROM alpine:3.16
 
 RUN apk update && apk upgrade && apk add --no-cache \
+    curl \
     php8 \
     php8-fpm \
     php8-mysqli \
     php8-json \
+    php8-phar \
     php8-curl \
     php8-dom \
     php8-exif \
@@ -16,10 +18,6 @@ RUN apk update && apk upgrade && apk add --no-cache \
     php8-redis \
     wget \
     unzip
-
-ARG DB_NAME \
-    DB_USER \
-    DB_PASSWORD
 
 RUN sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" \
        /etc/php8/php-fpm.d/www.conf && \
