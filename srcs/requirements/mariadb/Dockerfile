@@ -23,5 +23,4 @@ RUN chmod 777 /var/run/mysqld
 RUN chown -R mysql:mysql /run/mysqld/mysqld.sock
 RUN chmod -R 644 /run/mysqld/mysqld.sock
 
-EXPOSE 3306
 CMD ["mysqld", "--bind-address=0.0.0.0"]
