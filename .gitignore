@@ -1,1 +1,4 @@
 srcs/.env
+srcs/requirements/nginx/.dockerignore
+srcs/requirements/wordpress/.dockerignore
+srcs/requirements/mariadb/.dockerignore
